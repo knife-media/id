@@ -1,7 +1,6 @@
 const mime = require('mime-types');
 const fetch = require('node-fetch');
 const uuid = require('uuid/v4');
-const path = require('path');
 const fs = require('fs');
 
 async function loadAvatar(profile) {
