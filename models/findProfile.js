@@ -1,0 +1,19 @@
+const database = require('../utils/database');
+
+async function findProfile(entity, provider) {
+  const query = `SELECT user_id AS user FROM profiles WHERE entity = ? AND provider = ?`;
+
+  // Get database fields
+  const [rows, fields] = await database.execute(query, [entity, provider]);
+
+  let user = null;
+
+  // Check if user exists
+  if (rows.length > 0) {
+    user = rows[0].user;
+  }
+
+  return user;
+}
+
+module.exports = findProfile;

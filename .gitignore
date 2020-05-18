@@ -1,0 +1,5 @@
+node_modules/
+avatars/*
+!avatars/.gitkeep
+
+.env
