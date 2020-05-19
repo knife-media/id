@@ -27,7 +27,7 @@ CREATE TABLE `profiles` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
   `entity` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `provider` set('vkontakte','google','facebook') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `provider` set('vkontakte','google','facebook','yandex') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `profiles_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE

@@ -26,14 +26,15 @@ server.use(verify({
   credentialsRequired: false
 }));
 
+
 // Use identify router
-server.use('/id/profiles', routes.profiles);
+server.use('/profiles', routes.profiles);
 
 // Use comments router
-server.use('/id/comments', routes.comments);
+server.use('/comments', routes.comments);
 
 // Use ratings router
-server.use('/id/ratings', routes.ratings);
+server.use('/ratings', routes.ratings);
 
 // Show server error
 server.use((err, req, res, next) => {
