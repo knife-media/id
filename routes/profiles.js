@@ -38,7 +38,7 @@ async function authenticate(req, token, refresh, profile, next) {
     next(null, user);
 
   } catch (err) {
-    next(onerror(500, 'Database returned an error', {
+    next(onerror(500, 'The request cannot be executed', {
       'console': err.message
     }));
   }

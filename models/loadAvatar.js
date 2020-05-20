@@ -1,6 +1,7 @@
 const mime = require('mime-types');
 const fetch = require('node-fetch');
-const uuid = require('uuid/v4');
+const crypto = require('crypto');
+const path = require('path');
 const fs = require('fs');
 
 async function loadAvatar(profile) {
@@ -10,11 +11,23 @@ async function loadAvatar(profile) {
     // Try to fetch remote image
     const res = await fetch(profile.photos[0].value);
 
+    // Get extension from headers
+    const extension = mime.extension(res.headers.get('content-type'));
+
     // Set avatar filename
-    avatar = uuid() + '.' + mime.extension(res.headers.get('content-type'));
+    avatar = crypto.randomBytes(16).toString('hex') + '.' + extension;
+
+    // Create subdir based on file name
+    const directory = path.join('avatars', avatar.substring(0, 2));
+
+    if (!fs.existsSync(directory)) {
+      fs.mkdirSync(directory, {
+        recursive: true
+      });
+    }
 
     // Download avatar
-    res.body.pipe(fs.createWriteStream(__dirname + '/../avatars/' + avatar));
+    res.body.pipe(fs.createWriteStream(path.join(directory, avatar)));
   }
 
   return avatar;
