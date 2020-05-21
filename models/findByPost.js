@@ -10,7 +10,7 @@ async function findByPost(params) {
     LEFT JOIN users on users.id = comments.user_id
     LEFT JOIN ratings on comments.id = ratings.comment_id
     WHERE comments.post_id = ?
-    GROUP BY comments.id LIMIT 20`;
+    GROUP BY comments.id`;
 
   // Get database fields
   const [rows, fields] = await database.query(query, params);

@@ -13,7 +13,7 @@ async function findForUser(params) {
         SELECT comment_id, vote FROM ratings WHERE user_id = ?
     ) AS uv ON comments.id = uv.comment_id
     WHERE comments.post_id = ?
-    GROUP BY comments.id LIMIT 20`;
+    GROUP BY comments.id`;
 
   // Get database fields
   const [rows, fields] = await database.query(query, params);
