@@ -14,11 +14,14 @@ async function loadAvatar(profile) {
     // Get extension from headers
     const extension = mime.extension(res.headers.get('content-type'));
 
-    // Set avatar filename
-    avatar = crypto.randomBytes(16).toString('hex') + '.' + extension;
+    // Generate random filename
+    const filename = crypto.randomBytes(16).toString('hex') + '.' + extension;
 
     // Create subdir based on file name
-    const directory = path.join('avatars', avatar.substring(0, 2));
+    const directory = path.join('avatars', filename.substring(0, 2));
+
+    // Get avatar image
+    const image = path.join(directory, filename.substring(2));
 
     if (!fs.existsSync(directory)) {
       fs.mkdirSync(directory, {
@@ -27,7 +30,10 @@ async function loadAvatar(profile) {
     }
 
     // Download avatar
-    res.body.pipe(fs.createWriteStream(path.join(directory, avatar)));
+    res.body.pipe(fs.createWriteStream(image));
+
+    // Finally set avatar address
+    avatar = process.env.AVATARS_PREFIX + image;
   }
 
   return avatar;

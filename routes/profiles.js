@@ -30,7 +30,7 @@ async function authenticate(req, token, refresh, profile, next) {
 
     let avatar = await models.loadAvatar(profile);
 
-    // Update profile photo if exist
+    // Update profile photo if exists
     if (avatar) {
       await models.updateAvatar(avatar, user);
     }

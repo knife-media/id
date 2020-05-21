@@ -26,6 +26,9 @@ server.use(verify({
   credentialsRequired: false
 }));
 
+// Set avatars serve-static
+server.use('/avatars', express.static('avatars'));
+
 // Use comments router
 server.use('/comments', routes.comments);
 
