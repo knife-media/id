@@ -23,7 +23,8 @@ server.use(request.mw())
 // Get user from jwt
 server.use(verify({
   secret: process.env.JWT_SECRET,
-  credentialsRequired: false
+  credentialsRequired: false,
+  algorithms: ['RS256']
 }));
 
 // Set avatars serve-static

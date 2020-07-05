@@ -1,7 +1,6 @@
 module.exports = {
   findByPost: require('./findByPost'),
   findForUser: require('./findForUser'),
-  findComment: require('./findComment'),
   addComment: require('./addComment'),
   editComment: require('./editComment'),
   deleteComment: require('./deleteComment'),
