@@ -24,7 +24,7 @@ server.use(request.mw())
 server.use(verify({
   secret: process.env.JWT_SECRET,
   credentialsRequired: false,
-  algorithms: ['RS256']
+  algorithms: ['HS256']
 }));
 
 // Set avatars serve-static
