@@ -19,7 +19,7 @@ router.get('/', async (req, res, next) => {
     let fields = [];
 
     if (req.user) {
-      fields = await models.findForUser([req.user, post]);
+      fields = await models.findForUser([req.user, req.user, post]);
     } else {
       fields = await models.findByPost([post]);
     }

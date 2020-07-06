@@ -3,8 +3,9 @@ const database = require('../utils/database');
 async function findForUser(params) {
   // Select comments by post id for user
   const query = `SELECT
-    comments.id, comments.parent, comments.content, comments.created,
-    users.name, users.avatar, uv.vote as vote,
+    comments.id, comments.parent, comments.content, comments.status,
+    comments.created, users.name, users.avatar, uv.vote as vote,
+    IF(comments.user_id = ?, true, false) AS self,
     IFNULL(SUM(ratings.vote = 'plus'), 0) plus,
     IFNULL(SUM(ratings.vote = 'minus'), 0) minus
     FROM comments
