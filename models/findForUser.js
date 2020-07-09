@@ -1,26 +1,37 @@
 const database = require('../utils/database');
 
-async function findForUser(params) {
-  // Select comments by post id for user
-  const query = `SELECT
-    comments.id, comments.parent, comments.content, comments.status,
-    comments.created, users.name, users.avatar, uv.vote as vote,
-    IF(comments.user_id = ?, true, false) AS self,
-    IFNULL(SUM(ratings.vote = 'plus'), 0) plus,
-    IFNULL(SUM(ratings.vote = 'minus'), 0) minus
-    FROM comments
-    LEFT JOIN users on users.id = comments.user_id
-    LEFT JOIN ratings on comments.id = ratings.comment_id
-    LEFT OUTER JOIN (
-        SELECT comment_id, vote FROM ratings WHERE user_id = ?
-    ) AS uv ON comments.id = uv.comment_id
-    WHERE comments.post_id = ?
-    GROUP BY comments.id`;
+async function findForUser(user, fields) {
+  let comments = [];
+
+  fields.forEach((item) => {
+    comments.push(item.id);
+  });
+
+  comments = comments.join(',');
+
+  // Select ratings for user
+  const query = `SELECT * FROM ratings WHERE user_id = ? AND comment_id IN (${comments})`;
 
   // Get database fields
-  const [rows, fields] = await database.query(query, params);
+  let [rows] = await database.query(query, [user]);
 
-  return rows;
+  // Add user votes and self
+  fields.forEach((item, i, arr) => {
+    // Check if comment by current user
+    if (parseInt(user) === item.user_id) {
+      arr[i].self = 1;
+    }
+
+    rows.forEach(rating => {
+      if (item.id === rating.comment_id) {
+        arr[i].vote = rating.vote;
+      }
+    });
+
+    delete arr[i].user_id;
+  });
+
+  return fields;
 }
 
 module.exports = findForUser;

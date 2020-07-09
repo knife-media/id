@@ -16,12 +16,10 @@ router.get('/', async (req, res, next) => {
   }
 
   try {
-    let fields = [];
+    let fields = await models.findByPost([post]);
 
     if (req.user) {
-      fields = await models.findForUser([req.user, req.user, post]);
-    } else {
-      fields = await models.findByPost([post]);
+      fields = await models.findForUser(req.user, fields);
     }
 
     res.status(200).json({

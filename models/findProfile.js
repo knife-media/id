@@ -4,11 +4,11 @@ async function findProfile(entity, provider) {
   const query = `SELECT user_id AS user FROM profiles WHERE entity = ? AND provider = ?`;
 
   // Get database fields
-  const [rows, fields] = await database.execute(query, [entity, provider]);
-
-  let user = null;
+  let [rows] = await database.execute(query, [entity, provider]);
 
   // Check if user exists
+  let user = null;
+
   if (rows.length > 0) {
     user = rows[0].user;
   }
