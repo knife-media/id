@@ -8,6 +8,7 @@
   "license": "MIT",
   "version": "1.0.0",
   "dependencies": {
+    "autolinker": "^3.14.1",
     "dotenv": "^8.1.0",
     "download-file": "^0.1.5",
     "express": "^4.17.1",

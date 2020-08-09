@@ -1,7 +1,10 @@
 const express = require('express');
 const onerror = require('http-errors');
-const striptags = require('striptags');
 const router = express.Router();
+
+const ownership = require('../utils/ownership');
+const sanitize = require('../utils/sanitize');
+const takeout = require('../utils/takeout');
 
 // Require models
 const models = require('../models');
@@ -15,16 +18,38 @@ router.get('/', async (req, res, next) => {
     return next(onerror(400, 'Post parameter wrong format'));
   }
 
+  let result = {};
+
   try {
-    let fields = await models.findByPost([post]);
+    let comments = await models.findByPost(post);
 
     if (req.user) {
-      fields = await models.findForUser(req.user, fields);
+      // Add comments vote
+      comments = await models.appendVotes(comments, req.user);
+
+      // Add self property
+      comments = ownership(comments, req.user);
+
+      // Get user identity
+      let identity = await models.getIdentity(req.user);
+
+      if (identity) {
+        result.identity = identity;
+      }
     }
+
+    // Sanitize comments
+    comments = sanitize(comments);
+
+    // Hide removed comments
+    comments = takeout(comments);
+
+    // Apply comments to output
+    result.comments = comments;
 
     res.status(200).json({
       'success': true,
-      'fields': fields
+      'result': result
     });
   } catch (err) {
     next(onerror(500, 'Database returned an error', {
@@ -54,53 +79,30 @@ router.post('/', async (req, res, next) => {
     parent = null;
   }
 
-  let content = req.query.content || '';
+  let content = req.body.content || '';
 
-  // Strip html tags
-  content = striptags(content);
-
+  // Check content length
   if (content.length < 1) {
     return next(onerror(400, 'Content parameter is empty'));
   }
 
+  let result = {};
+
   try {
-    let comment = await models.addComment(parent, post, req.user, req.clientIp, content);
+    let id = await models.addComment(parent, post, req.user, req.clientIp, content);
 
     // Get comment fields
-    let fields = await models.findComment(comment);
+    let comments = await models.findComment(id);
+
+    // Add self property
+    comments = ownership(comments, req.user);
+
+    // Sanitize comments before output
+    result.comments = sanitize(comments);
 
     res.status(200).json({
       'success': true,
-      'fields': fields
-    });
-  } catch (err) {
-    next(onerror(500, 'Database returned an error', {
-      'console': err.message
-    }));
-  }
-});
-
-
-// Edit comment
-router.put('/:comment([0-9]+)', async (req, res, next) => {
-  if (!req.user) {
-    return next(onerror(401, 'Access denied for unauthorized requests'));
-  }
-
-  let content = req.query.content || '';
-
-  // Strip html tags
-  content = striptags(content);
-
-  if (content.length < 1) {
-    return next(onerror(400, 'Content parameter is empty'));
-  }
-
-  try {
-    await models.editComment(content, req.params.comment, req.user);
-
-    res.status(200).json({
-      'success': true
+      'result': result
     });
   } catch (err) {
     next(onerror(500, 'Database returned an error', {

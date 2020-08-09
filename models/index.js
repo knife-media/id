@@ -1,6 +1,7 @@
 module.exports = {
   findByPost: require('./findByPost'),
-  findForUser: require('./findForUser'),
+  appendVotes: require('./appendVotes'),
+  findComment: require('./findComment'),
   addComment: require('./addComment'),
   editComment: require('./editComment'),
   deleteComment: require('./deleteComment'),
@@ -8,6 +9,7 @@ module.exports = {
   deleteRating: require('./deleteRating'),
   findProfile: require('./findProfile'),
   createUser: require('./createUser'),
+  getIdentity: require('./getIdentity'),
   addProfile: require('./addProfile'),
   updateAvatar: require('./updateAvatar'),
   loadAvatar: require('./loadAvatar')

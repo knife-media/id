@@ -1,10 +1,26 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="utf-8">
     <title>Переадресация…</title>
 </head>
+
 <body>
-    <script>window.close();</script>
+    <script>
+        try {
+            window.opener.postMessage('redirect', '*');
+        } catch (e) {
+            console.error(e);
+        }
+
+        window.close();
+
+        // Redirect on close fail
+        window.setTimeout(function(){
+            window.location.href = "https://knife.media";
+        }, 1);
+    </script>
 </body>
+
 </html>

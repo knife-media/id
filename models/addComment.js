@@ -8,7 +8,7 @@ async function addComment(parent, post, user, address, content) {
   let params = [parent, post, user, address, content];
 
   // Update comment content
-  let [rows] =  await database.execute(query, params);
+  let [rows] = await database.execute(query, params);
 
   // Return comment id
   return rows.insertId;

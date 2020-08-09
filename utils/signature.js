@@ -1,11 +1,12 @@
 const jwt = require('jsonwebtoken');
 const path = require('path');
 
-signature = (req, res) => {
+const signature = (req, res) => {
+  // Generate JWT token
   const token = jwt.sign(req.user, process.env.JWT_SECRET);
 
   // Set cookie with token for 90 days
-  res.cookie('id.token', token, {
+  res.cookie('signature', token, {
     expires: new Date(Date.now() + 90 * 24 * 3600000)
   })
 

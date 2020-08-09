@@ -9,6 +9,7 @@
 const express = require('express');
 const request = require('request-ip');
 const verify = require('express-jwt');
+
 const server = express();
 
 // Require settings
@@ -18,7 +19,10 @@ require('dotenv').config();
 const routes = require('./routes');
 
 // Set request ip middleware
-server.use(request.mw())
+server.use(request.mw());
+
+// Parse json requests
+server.use(express.json());
 
 // Get user from jwt
 server.use(verify({
@@ -27,18 +31,25 @@ server.use(verify({
   algorithms: ['HS256']
 }));
 
+
+// Skip wrong JWT token error
+server.use((err, req, res, next) => {
+  if (err.name === 'UnauthorizedError') {
+    next();
+  }
+});
+
 // Set avatars serve-static
-server.use('/avatars', express.static('avatars'));
+server.use('/id/avatars', express.static('avatars'));
 
 // Use comments router
-server.use('/comments', routes.comments);
+server.use('/id/comments', routes.comments);
 
 // Use identify router
-server.use('/profiles', routes.profiles);
+server.use('/id/profiles', routes.profiles);
 
 // Use ratings router
-server.use('/ratings', routes.ratings);
-
+server.use('/id/ratings', routes.ratings);
 
 // Show server error
 server.use((err, req, res, next) => {

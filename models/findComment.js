@@ -1,12 +1,12 @@
 const database = require('../utils/database');
 
-async function findByPost(post) {
-  // Select comments by post id
+async function findComment(comment) {
+  // Select comment by post id
   const query = `SELECT
     comments.id,
     comments.parent,
-    comments.status,
     comments.content,
+    comments.status,
     comments.created,
     comments.user_id,
     users.name,
@@ -16,14 +16,12 @@ async function findByPost(post) {
     FROM comments
     LEFT JOIN users on users.id = comments.user_id
     LEFT JOIN ratings on comments.id = ratings.comment_id
-    WHERE comments.post_id = ?
-    GROUP BY comments.id
-    ORDER BY comments.id ASC`;
+    WHERE comments.id = ? LIMIT 1`
 
   // Get database fields
-  let [rows] = await database.query(query, [post]);
+  let [rows] = await database.query(query, [comment]);
 
   return rows;
 }
 
-module.exports = findByPost;
+module.exports = findComment;
