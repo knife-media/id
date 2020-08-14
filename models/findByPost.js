@@ -1,6 +1,8 @@
 const database = require('../utils/database');
 
 async function findByPost(post) {
+  let fields = [];
+
   // Select comments by post id
   const query = `SELECT
     comments.id,
@@ -20,10 +22,28 @@ async function findByPost(post) {
     GROUP BY comments.id
     ORDER BY comments.id ASC`;
 
+  const ignore = ['content', 'name', 'avatar', 'plus', 'minus', 'self'];
+
   // Get database fields
   let [rows] = await database.query(query, [post]);
 
-  return rows;
+  rows.forEach(item => {
+    if (item.status === 'removed') {
+      // Skip items w/out visible children
+      if (!rows.find(key => key.parent === item.id && key.status === 'visible')) {
+        return;
+      }
+
+      // Remove optional fields for others
+      ignore.forEach(key => {
+        delete item[key];
+      });
+    }
+
+    fields.push(item);
+  });
+
+  return fields;
 }
 
 module.exports = findByPost;

@@ -9,6 +9,7 @@
 const express = require('express');
 const request = require('request-ip');
 const verify = require('express-jwt');
+const cookies = require('cookie-parser');
 
 const server = express();
 
@@ -18,17 +19,25 @@ require('dotenv').config();
 // Require comments router
 const routes = require('./routes');
 
+// Add translates for messages
+const locale = require('./locales/ru.json');
+
 // Set request ip middleware
 server.use(request.mw());
 
 // Parse json requests
 server.use(express.json());
 
+// Parse cookies
+server.use(cookies());
+
+
 // Get user from jwt
 server.use(verify({
   secret: process.env.JWT_SECRET,
   credentialsRequired: false,
-  algorithms: ['HS256']
+  algorithms: ['HS256'],
+  getToken: req => req.cookies.signature
 }));
 
 
@@ -39,23 +48,39 @@ server.use((err, req, res, next) => {
   }
 });
 
+
 // Set avatars serve-static
 server.use('/id/avatars', express.static('avatars'));
+
+// Set logout route first
+server.post('/id/logout', (req, res) => {
+  res.clearCookie('signature');
+
+  res.status(200).json({
+    'success': true
+  });
+});
+
+// Check is user can make requests
+server.use(routes.users);
 
 // Use comments router
 server.use('/id/comments', routes.comments);
 
-// Use identify router
+// Use profiles router
 server.use('/id/profiles', routes.profiles);
 
 // Use ratings router
 server.use('/id/ratings', routes.ratings);
 
+
 // Show server error
 server.use((err, req, res, next) => {
+  let message = err.message || 'Server internal error';
+
   res.status(err.status || 500).json({
     'success': false,
-    'message': err.message || 'Server internal error'
+    'message': locale[message]
   });
 
   if (err.console) {
@@ -63,11 +88,14 @@ server.use((err, req, res, next) => {
   }
 });
 
+
 // Last error handler
 server.use((req, res) => {
+  let message = 'Resource not found';
+
   res.status(404).json({
     'success': false,
-    'message': 'Resource not found'
+    'message': locale[message]
   });
 });
 

@@ -1,5 +1,6 @@
 module.exports = {
   profiles: require('./profiles'),
   comments: require('./comments'),
-  ratings: require('./ratings')
+  ratings: require('./ratings'),
+  users: require('./users')
 }

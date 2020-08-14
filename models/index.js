@@ -9,6 +9,7 @@ module.exports = {
   deleteRating: require('./deleteRating'),
   findProfile: require('./findProfile'),
   createUser: require('./createUser'),
+  userStatus: require('./userStatus'),
   getIdentity: require('./getIdentity'),
   addProfile: require('./addProfile'),
   updateAvatar: require('./updateAvatar'),

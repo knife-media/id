@@ -5,9 +5,16 @@ const sanitize = (comments) => {
   comments = comments.map(item => {
     delete item.user_id;
 
+    if (item.status === 'removed') {
+      return item;
+    }
+
     // Just set proper type to integers
     item.plus = parseInt(item.plus);
     item.minus = parseInt(item.minus);
+
+    // Sanitize name
+    item.name = striptags(item.name);
 
     // First strip all tags
     item.content = striptags(item.content);

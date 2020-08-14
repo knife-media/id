@@ -1,0 +1,12 @@
+{
+    "Access denied for unauthorized requests": "Доступ запрещен. Попробуйте обновить страницу",
+    "Comment parameter wrong format": "Неверный формат поля комментария",
+    "Wrong vote parameter": "Неверный формат поля голоса",
+    "Database returned an error": "База данных вернула ошибку. Попробуйте позже",
+    "Post parameter wrong format": "Неверный формат поля записи",
+    "Content parameter is empty": "Поле комментария не может быть пустым",
+    "The request cannot be executed": "Не удалось выполнить запрос. Попробуйте позже",
+    "Server internal error": "Внутренняя ошибка сервера. Попробуйте позже",
+    "Resource not found": "Метод не найден",
+    "Your profile was banned. Please contact us to unblock": "Ваш профиль был заблокирован. Свяжитесь с нами, если считаете, что это ошибка"
+}

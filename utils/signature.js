@@ -7,7 +7,9 @@ const signature = (req, res) => {
 
   // Set cookie with token for 90 days
   res.cookie('signature', token, {
-    expires: new Date(Date.now() + 90 * 24 * 3600000)
+    expires: new Date(Date.now() + 90 * 24 * 3600000),
+    httpOnly: true,
+    sameSite: 'Lax'
   })
 
   // Show profiles view to close popup

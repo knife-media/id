@@ -4,7 +4,6 @@ const router = express.Router();
 
 const ownership = require('../utils/ownership');
 const sanitize = require('../utils/sanitize');
-const takeout = require('../utils/takeout');
 
 // Require models
 const models = require('../models');
@@ -39,13 +38,7 @@ router.get('/', async (req, res, next) => {
     }
 
     // Sanitize comments
-    comments = sanitize(comments);
-
-    // Hide removed comments
-    comments = takeout(comments);
-
-    // Apply comments to output
-    result.comments = comments;
+    result.comments = sanitize(comments);
 
     res.status(200).json({
       'success': true,
@@ -61,10 +54,6 @@ router.get('/', async (req, res, next) => {
 
 // Post new comment
 router.post('/', async (req, res, next) => {
-  if (!req.user) {
-    return next(onerror(401, 'Access denied for unauthorized requests'));
-  }
-
   let post = req.query.post || '';
 
   // Check post
@@ -114,10 +103,6 @@ router.post('/', async (req, res, next) => {
 
 // Delete comment
 router.delete('/:comment([0-9]+)', async (req, res, next) => {
-  if (!req.user) {
-    return next(onerror(401, 'Access denied for unauthorized requests'));
-  }
-
   try {
     await models.deleteComment(req.params.comment, req.user);
 

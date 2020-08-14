@@ -8,10 +8,6 @@ const models = require('../models');
 
 // Set vote for comment
 router.post('/', async (req, res, next) => {
-  if (!req.user) {
-    return next(onerror(401, 'Access denied for unauthorized requests'));
-  }
-
   let comment = req.query.comment || '';
 
   if (!comment.match(/^\d+$/)) {
@@ -21,7 +17,7 @@ router.post('/', async (req, res, next) => {
   let vote = req.query.vote || '';
 
   if (!['plus', 'minus'].includes(vote)) {
-    return next(onerror(400, 'Vote parameter wrong format'));
+    return next(onerror(400, 'Wrong vote parameter'));
   }
 
   try {
@@ -40,10 +36,6 @@ router.post('/', async (req, res, next) => {
 
 // Delete vote for comment
 router.delete('/', async (req, res, next) => {
-  if (!req.user) {
-    return next(onerror(401, 'Access denied for unauthorized requests'));
-  }
-
   let comment = req.query.comment || '';
 
   if (!comment.match(/^\d+$/)) {

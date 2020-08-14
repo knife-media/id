@@ -96,6 +96,7 @@ router.get('/facebook/redirect', passport.authenticate('facebook', {
   session: false
 }), signature);
 
+
 // Load yandex passport
 router.get('/yandex', passport.authenticate('yandex'));
 

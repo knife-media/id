@@ -9,7 +9,7 @@
 <body>
     <script>
         try {
-            window.opener.postMessage('redirect', '*');
+            window.opener.postMessage('reload', window.location.origin);
         } catch (e) {
             console.error(e);
         }

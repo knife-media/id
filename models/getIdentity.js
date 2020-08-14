@@ -6,11 +6,11 @@ async function getIdentity(user) {
   // Get database fields
   let [rows] = await database.execute(query, [user]);
 
-  if (rows.length < 1) {
-    return null;
+  if (rows.length > 0) {
+    return rows[0];
   }
 
-  return rows[0];
+  return null;
 }
 
 module.exports = getIdentity;
