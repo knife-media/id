@@ -80,7 +80,7 @@ server.use((err, req, res, next) => {
 
   res.status(err.status || 500).json({
     'success': false,
-    'message': locale[message]
+    'message': locale[message] || message
   });
 
   if (err.console) {
