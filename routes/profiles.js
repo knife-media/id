@@ -16,7 +16,7 @@ const models = require('../models');
 
 
 // Common authenticate function
-async function authenticate(req, token, refresh, profile, next) {
+async function authenticate(req, token, refresh, params, profile, next) {
   try {
     let user = await models.findProfile(profile.id, profile.provider);
 
