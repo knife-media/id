@@ -22,6 +22,9 @@ const routes = require('./routes');
 // Add translates for messages
 const locale = require('./locales/ru.json');
 
+/// Hide specific Express header
+server.disable('x-powered-by');
+
 // Set request ip middleware
 server.use(request.mw());
 
