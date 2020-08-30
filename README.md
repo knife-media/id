@@ -11,4 +11,4 @@ Backend service for cloud comments. Used for oauth authorization of users and st
 
 If you wish to issue a pull request for code here, please do so on https://github.com/knife-media/id
 
-![comments screenshot](https://user-images.githubusercontent.com/454185/91660107-d6764000-eadc-11ea-8250-f16b7ebbe27f.jpg)
+![comments screenshot](https://user-images.githubusercontent.com/454185/91660129-01f92a80-eadd-11ea-85c7-4eacb5d12146.jpg)
