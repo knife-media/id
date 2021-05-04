@@ -7,7 +7,7 @@ Backend service for cloud comments. Used for oauth authorization of users and st
 1. Create mysql database and upload `database.sql` 
 2. Install required npm modules using `yarn update`
 3. Copy `.env.example` to `.env` and replace credentials
-3. Start application using `node server.js`
+4. Start application using `node server.js`
 
 If you wish to issue a pull request for code here, please do so on https://github.com/knife-media/id
 
