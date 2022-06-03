@@ -8,6 +8,7 @@ module.exports = {
   setRating: require('./setRating'),
   deleteRating: require('./deleteRating'),
   findProfile: require('./findProfile'),
+  findBackup: require('./findBackup'),
   createUser: require('./createUser'),
   userStatus: require('./userStatus'),
   getIdentity: require('./getIdentity'),

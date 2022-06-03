@@ -18,14 +18,20 @@ const models = require('../models');
 // Common authenticate function
 async function authenticate(req, token, refresh, params, profile, next) {
   try {
-    let user = await models.findProfile(profile.id, profile.provider);
+    const id = String(profile.id);
+
+    let user = await models.findProfile(id, profile.provider);
+
+    if (!user) {
+      user = await models.findBackup(id, profile.provider);
+    }
 
     if (!user) {
       // Try to create new user
       user = await models.createUser(profile.displayName, req.clientIp);
 
       // Insert connection to profiles table
-      await models.addProfile(user, profile.id, profile.provider);
+      await models.addProfile(user, id, profile.provider);
     }
 
     let avatar = await models.loadAvatar(profile);
