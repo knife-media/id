@@ -76,6 +76,9 @@ server.use('/id/profiles', routes.profiles);
 // Use ratings router
 server.use('/id/ratings', routes.ratings);
 
+// Use notifications router
+server.use('/id/notifications', routes.notifications);
+
 
 // Show server error
 server.use((err, req, res, next) => {

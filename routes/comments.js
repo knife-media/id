@@ -4,7 +4,6 @@ const router = express.Router();
 
 const ownership = require('../utils/ownership');
 const sanitize = require('../utils/sanitize');
-const moderation = require('../utils/moderation');
 
 // Require models
 const models = require('../models');
@@ -81,9 +80,6 @@ router.post('/', async (req, res, next) => {
   try {
     let id = await models.addComment(parent, post, req.user, req.clientIp, content);
 
-    // Moderate comment
-    moderation(id, post, content);
-
     // Get comment fields
     let comments = await models.findComment(id);
 
@@ -99,7 +95,7 @@ router.post('/', async (req, res, next) => {
     });
   } catch (err) {
     next(onerror(500, 'Database returned an error', {
-      'console': err.message
+      'console': err
     }));
   }
 });

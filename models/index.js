@@ -14,5 +14,7 @@ module.exports = {
   getIdentity: require('./getIdentity'),
   addProfile: require('./addProfile'),
   updateAvatar: require('./updateAvatar'),
-  loadAvatar: require('./loadAvatar')
+  loadAvatar: require('./loadAvatar'),
+  findNotifications: require('./findNotifications'),
+  setNotification: require('./setNotification')
 }
