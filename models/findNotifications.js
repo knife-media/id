@@ -16,10 +16,11 @@ async function findNotifications(user) {
     WHERE parent IN (SELECT id FROM comments WHERE user_id = ?)
     AND (notifications.comment_id IS NULL OR notifications.user_id != ?)
     AND comments.status = 'visible'
+    AND comments.user_id != ?
     ORDER BY comments.created DESC LIMIT 20`;
 
   // Get database fields
-  let [rows] = await database.query(query, [user, user]);
+  let [rows] = await database.query(query, [user, user, user]);
 
   return rows;
 }
