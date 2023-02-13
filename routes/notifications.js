@@ -1,6 +1,7 @@
 const express = require('express');
 const onerror = require('http-errors');
 const router = express.Router();
+const striptags = require('striptags');
 
 // Require models
 const models = require('../models');
@@ -15,7 +16,11 @@ router.get('/', async (req, res, next) => {
   let result = {};
 
   try {
-    const result = await models.findNotifications(req.user);
+    result = await models.findNotifications(req.user);
+
+    result.map(v => {
+      v.title = striptags(v.title);
+    });
 
     res.status(200).json({
       'success': true,
@@ -35,7 +40,7 @@ router.post('/', async (req, res, next) => {
 
   try {
     for (let i = 0; i < comments.length; i++) {
-      let comment = comments[i];
+      let comment = String(comments[i]);
 
       if (comment.match(/^\d+$/)) {
         await models.setNotification(comment, req.user)

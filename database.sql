@@ -42,6 +42,7 @@ DROP TABLE IF EXISTS `posts`;
 CREATE TABLE `posts` (
   `post_id` int(11) NOT NULL,
   `slug` varchar(256) NOT NULL,
+  `title` varchar(512) NOT NULL,
   PRIMARY KEY (`post_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -102,4 +103,4 @@ CREATE TABLE `watchcat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
--- 2023-02-09 18:40:59
+-- 2023-02-13 17:51:20
