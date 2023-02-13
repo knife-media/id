@@ -18,7 +18,7 @@
     "mime-types": "^2.1.27",
     "mysql2": "^2.1.0",
     "node-fetch": "^2.6.1",
-    "passport": "^0.4.1",
+    "passport": "^0.6.0",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth": "^2.0.0",
     "passport-vkontakte": "negezor/passport-vkontakte#pass-req",
