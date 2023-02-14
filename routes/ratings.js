@@ -21,7 +21,7 @@ router.post('/', async (req, res, next) => {
   }
 
   try {
-    await models.setRating(comment, vote, req.user);
+    await models.setRating(comment, vote, req.auth);
 
     res.status(200).json({
       'success': true
@@ -43,7 +43,7 @@ router.delete('/', async (req, res, next) => {
   }
 
   try {
-    await models.deleteRating(comment, req.user);
+    await models.deleteRating(comment, req.auth);
 
     res.status(200).json({
       'success': true

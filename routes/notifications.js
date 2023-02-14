@@ -9,14 +9,14 @@ const models = require('../models');
 
 // Get user's notifications
 router.get('/', async (req, res, next) => {
-  if (!req.user) {
+  if (!req.auth) {
     return next(onerror(401, 'Access denied for unauthorized requests'));
   }
 
   let result = {};
 
   try {
-    result = await models.findNotifications(req.user);
+    result = await models.findNotifications(req.auth);
 
     result.map(v => {
       v.title = striptags(v.title);
@@ -43,7 +43,7 @@ router.post('/', async (req, res, next) => {
       let comment = String(comments[i]);
 
       if (comment.match(/^\d+$/)) {
-        await models.setNotification(comment, req.user)
+        await models.setNotification(comment, req.auth)
       }
     }
 

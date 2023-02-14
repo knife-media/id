@@ -22,15 +22,15 @@ router.get('/', async (req, res, next) => {
   try {
     let comments = await models.findByPost(post);
 
-    if (req.user) {
+    if (req.auth) {
       // Add comments vote
-      comments = await models.appendVotes(comments, req.user);
+      comments = await models.appendVotes(comments, req.auth);
 
       // Add self property
-      comments = ownership(comments, req.user);
+      comments = ownership(comments, req.auth);
 
       // Get user identity
-      let identity = await models.getIdentity(req.user);
+      let identity = await models.getIdentity(req.auth);
 
       if (identity) {
         result.identity = identity;
@@ -78,13 +78,13 @@ router.post('/', async (req, res, next) => {
   let result = {};
 
   try {
-    let id = await models.addComment(parent, post, req.user, req.clientIp, content);
+    let id = await models.addComment(parent, post, req.auth, req.clientIp, content);
 
     // Get comment fields
     let comments = await models.findComment(id);
 
     // Add self property
-    comments = ownership(comments, req.user);
+    comments = ownership(comments, req.auth);
 
     // Sanitize comments before output
     result.comments = sanitize(comments);
@@ -104,7 +104,7 @@ router.post('/', async (req, res, next) => {
 // Delete comment
 router.delete('/:comment([0-9]+)', async (req, res, next) => {
   try {
-    await models.deleteComment(req.params.comment, req.user);
+    await models.deleteComment(req.params.comment, req.auth);
 
     res.status(200).json({
       'success': true

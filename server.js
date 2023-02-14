@@ -8,8 +8,8 @@
 
 const express = require('express');
 const request = require('request-ip');
-const verify = require('express-jwt');
 const cookies = require('cookie-parser');
+const {expressjwt: jwt} = require('express-jwt');
 
 const server = express();
 
@@ -36,7 +36,7 @@ server.use(cookies());
 
 
 // Get user from jwt
-server.use(verify({
+server.use(jwt({
   secret: process.env.JWT_SECRET,
   credentialsRequired: false,
   algorithms: ['HS256'],

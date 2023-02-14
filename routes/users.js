@@ -8,13 +8,13 @@ const models = require('../models');
 
 // Common authorize function
 async function authorize(req, res, next) {
-  if (!req.user) {
+  if (!req.auth) {
     return next(onerror(401, 'Access denied for unauthorized requests'));
   }
 
   try {
     // Get user status
-    let status = await models.userStatus(req.user);
+    let status = await models.userStatus(req.auth);
 
     if (status === 'active') {
       return next();
