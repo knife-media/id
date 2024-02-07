@@ -63,7 +63,7 @@ passport.use(new FacebookStrategy({
   clientSecret: process.env.FB_SECRET,
   callbackURL: process.env.FB_CALLBACK,
   profileFields: ['id', 'displayName', 'photos'],
-  graphAPIVersion: 'v10.0',
+  graphAPIVersion: 'v13.0',
   passReqToCallback: true
 }, authenticate));
 
